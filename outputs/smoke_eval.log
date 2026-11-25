@@ -1,0 +1,26 @@
+2026-11-24 22:14:13,252 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-24 22:14:13,253 WARNING huggingface_hub.utils._http: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-24 22:14:13,258 INFO httpx2: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/PolyAI/banking77/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/README.md?%2Fdatasets%2FPolyAI%2Fbanking77%2Fresolve%2Fmain%2FREADME.md=&etag=%221482853dcfde202acd81668114dc9c5d7f6e7043%22 "HTTP/1.1 200 OK"
+2026-11-24 22:14:13,272 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/banking77.py "HTTP/1.1 404 Not Found"
+2026-11-24 22:14:13,305 INFO httpx2: HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/PolyAI/banking77/PolyAI/banking77.py "HTTP/1.1 404 Not Found"
+2026-11-24 22:14:13,326 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/revision/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6 "HTTP/1.1 200 OK"
+2026-11-24 22:14:13,345 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-11-24 22:14:13,396 INFO httpx2: HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=PolyAI/banking77 "HTTP/1.1 200 OK"
+2026-11-24 22:14:13,421 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/tree/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/data?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-11-24 22:14:13,452 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/tree/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-11-24 22:14:13,471 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-11-24 22:14:13,496 INFO llm_structured_output.data.load_dataset: Loaded PolyAI/banking77: 10003 train / 3080 test rows from official splits
+2026-11-24 22:14:13,507 INFO llm_structured_output.data.load_dataset: Split sizes after preparation: train=100 validation=25 test=50 (77 labels)
+2026-11-24 22:14:16,804 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct "HTTP/1.1 200 OK"
+Evaluating adapter: checkpoints/smoke_test/checkpoint-50
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 6854.21it/s]
+evaluating:   0%|          | 0/13 [00:00<?, ?batch/s]evaluating:   8%|▊         | 1/13 [00:16<03:22, 16.91s/batch]evaluating:  15%|█▌        | 2/13 [00:36<03:25, 18.66s/batch]evaluating:  23%|██▎       | 3/13 [00:56<03:10, 19.07s/batch]evaluating:  31%|███       | 4/13 [01:18<03:01, 20.12s/batch]evaluating:  38%|███▊      | 5/13 [01:40<02:47, 20.90s/batch]evaluating:  46%|████▌     | 6/13 [01:58<02:20, 20.10s/batch]evaluating:  54%|█████▍    | 7/13 [02:17<01:58, 19.70s/batch]evaluating:  62%|██████▏   | 8/13 [02:35<01:36, 19.21s/batch]evaluating:  69%|██████▉   | 9/13 [02:54<01:15, 18.85s/batch]evaluating:  77%|███████▋  | 10/13 [03:13<00:56, 18.95s/batch]evaluating:  85%|████████▍ | 11/13 [03:10<00:38, 19.15s/batch]evaluating:  92%|█████████▏| 12/13 [03:27<00:18, 18.55s/batch]evaluating: 100%|██████████| 13/13 [03:39<00:00, 16.44s/batch]evaluating: 100%|██████████| 13/13 [03:39<00:00, 16.88s/batch]
+2026-11-24 22:16:33,711 INFO llm_structured_output.evaluation.evaluate: Test results: accuracy=0.1800 exact_match=0.1800 valid_json=1.0000
+2026-11-24 22:16:33,712 INFO llm_structured_output.evaluation.evaluate: Saved predictions to outputs/smoke_predictions.jsonl
+2026-11-24 22:16:33,713 INFO llm_structured_output.evaluation.evaluate: Saved metrics to outputs/smoke_metrics.json
+2026-11-24 22:16:33,820 INFO llm_structured_output.evaluation.error_analysis: Wrote 41 error records to outputs/smoke_errors.jsonl
+2026-11-24 22:16:33,824 INFO llm_structured_output.evaluation.error_analysis: Saved confusion matrix to outputs/smoke_confusion_matrix.json
+2026-11-24 22:16:33,825 WARNING llm_structured_output.evaluation.error_analysis: matplotlib not installed; skipping confusion matrix PNG
+Test accuracy=0.1800 exact_match=0.1800 valid_json_rate=1.0000
+eval_exit=0

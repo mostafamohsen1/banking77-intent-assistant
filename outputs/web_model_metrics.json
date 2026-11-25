@@ -1,0 +1,20 @@
+{
+  "accuracy": 0.8957792207792208,
+  "macro_f1": 0.8961616679955877,
+  "float_model_accuracy": 0.8951298701298701,
+  "float_model_macro_f1": 0.8955894114411527,
+  "agreement_with_float_model": 0.9974025974025974,
+  "below_min_confidence_rate": 0.021103896103896104,
+  "min_confidence": 0.15,
+  "num_test_examples": 3080,
+  "num_labels": 77,
+  "num_features": 10292,
+  "config": "configs/banking77.yaml",
+  "dataset": "PolyAI/banking77",
+  "train_split": "train",
+  "num_train_examples": 10003,
+  "test_split": "test",
+  "seed": 42,
+  "model_file": "outputs/web_model.json",
+  "model_file_bytes": 1322267
+}

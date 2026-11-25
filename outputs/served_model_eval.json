@@ -1,0 +1,8 @@
+{
+  "backend": "tfidf (served by scripts/webapp.py)",
+  "accuracy": 0.8951,
+  "macro_f1": 0.8956,
+  "num_test_examples": 3080,
+  "avg_latency_ms": 0.022,
+  "seed": 42
+}

@@ -1,0 +1,17 @@
+{
+  "history": [
+    {
+      "step": 50,
+      "eval_loss": 0.386967271566391,
+      "eval_runtime": 43.9861,
+      "eval_samples_per_second": 0.568,
+      "eval_steps_per_second": 0.296,
+      "eval_entropy": 0.3631944965857726,
+      "eval_mean_token_accuracy": 0.9371102543977591,
+      "eval_num_tokens": 48954.0,
+      "epoch": 1.0,
+      "best": true
+    }
+  ],
+  "best_eval_loss": 0.386967271566391
+}

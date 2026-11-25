@@ -1,0 +1,83 @@
+2026-11-24 22:03:57,757 WARNING train: Running fine-tuning on CPU (float32 smoke config) — slow by design.
+2026-11-24 22:03:57,790 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-11-24 22:03:57,795 INFO httpx2: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/PolyAI/banking77/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/README.md?%2Fdatasets%2FPolyAI%2Fbanking77%2Fresolve%2Fmain%2FREADME.md=&etag=%221482853dcfde202acd81668114dc9c5d7f6e7043%22 "HTTP/1.1 200 OK"
+2026-11-24 22:03:57,809 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/banking77.py "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-24 22:03:57,809 WARNING huggingface_hub.utils._http: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-24 22:03:57,847 INFO httpx2: HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/PolyAI/banking77/PolyAI/banking77.py "HTTP/1.1 404 Not Found"
+2026-11-24 22:03:57,868 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/revision/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6 "HTTP/1.1 200 OK"
+2026-11-24 22:03:57,884 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-11-24 22:03:57,918 INFO httpx2: HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=PolyAI/banking77 "HTTP/1.1 200 OK"
+2026-11-24 22:03:57,939 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/tree/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/data?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-11-24 22:03:57,956 INFO httpx2: HTTP Request: GET https://huggingface.co/api/datasets/PolyAI/banking77/tree/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-11-24 22:03:57,976 INFO httpx2: HTTP Request: HEAD https://huggingface.co/datasets/PolyAI/banking77/resolve/1846984189f2bc0ac51c6fc3a600fa9e1714e0c6/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-11-24 22:03:57,998 INFO llm_structured_output.data.load_dataset: Loaded PolyAI/banking77: 10003 train / 3080 test rows from official splits
+2026-11-24 22:03:58,006 INFO llm_structured_output.data.load_dataset: Split sizes after preparation: train=100 validation=25 test=50 (77 labels)
+2026-11-24 22:03:58,006 INFO llm_structured_output.training.train: CUDA not available; loading model in float32 on CPU
+2026-11-24 22:03:58,021 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct "HTTP/1.1 200 OK"
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+2026-11-24 22:03:58,026 WARNING transformers.configuration_utils: `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  67%|██████▋   | 195/290 [00:00<00:00, 1932.32it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 2051.56it/s]
+2026-11-24 22:03:58,544 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct "HTTP/1.1 200 OK"
+2026-11-24 22:03:58,565 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-24 22:03:58,585 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-24 22:03:58,961 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct "HTTP/1.1 200 OK"
+2026-11-24 22:03:58,962 INFO llm_structured_output.training.train: Loaded model Qwen/Qwen2.5-0.5B-Instruct (dtype=torch.float32)
+formatting train:   0%|          | 0/100 [00:00<?, ? examples/s]formatting train: 100%|██████████| 100/100 [00:00<00:00, 4110.65 examples/s]
+formatting validation:   0%|          | 0/25 [00:00<?, ? examples/s]formatting validation: 100%|██████████| 25/25 [00:00<00:00, 3900.23 examples/s]
+2026-11-24 22:04:02,094 INFO llm_structured_output.training.lora: LoRA config: r=8 alpha=16 dropout=0.05 targets={'v_proj', 'q_proj'}
+2026-11-24 22:04:02,145 INFO llm_structured_output.training.lora: Trainable parameters: 540672 / 494573440 (0.11%)
+/vercel/sandbox/repo/.venv/lib/python3.12/site-packages/transformers/training_args.py:1541: FutureWarning: `gradient_checkpointing` is deprecated and will be removed in v6. Use `activation_checkpointing` instead.
+  warnings.warn(f"`{old}` is deprecated and will be removed in v6. Use `{new}` instead.", FutureWarning)
+trainable params: 540,672 || all params: 494,573,440 || trainable%: 0.1093
+Adding EOS to train dataset:   0%|          | 0/100 [00:00<?, ? examples/s]Adding EOS to train dataset: 100%|██████████| 100/100 [00:00<00:00, 17003.71 examples/s]
+Tokenizing train dataset:   0%|          | 0/100 [00:00<?, ? examples/s]Tokenizing train dataset:  68%|██████▊   | 68/100 [00:00<00:00, 667.06 examples/s]Tokenizing train dataset: 100%|██████████| 100/100 [00:00<00:00, 597.28 examples/s]
+Building labels for train dataset:   0%|          | 0/100 [00:00<?, ? examples/s]Building labels for train dataset: 100%|██████████| 100/100 [00:00<00:00, 3698.03 examples/s]
+Truncating train dataset:   0%|          | 0/100 [00:00<?, ? examples/s]Truncating train dataset: 100%|██████████| 100/100 [00:00<00:00, 6693.00 examples/s]
+Dropping fully masked examples from train dataset:   0%|          | 0/100 [00:00<?, ? examples/s]Dropping fully masked examples from train dataset: 100%|██████████| 100/100 [00:00<00:00, 14633.68 examples/s]
+Adding EOS to eval dataset:   0%|          | 0/25 [00:00<?, ? examples/s]Adding EOS to eval dataset: 100%|██████████| 25/25 [00:00<00:00, 8611.12 examples/s]
+Tokenizing eval dataset:   0%|          | 0/25 [00:00<?, ? examples/s]Tokenizing eval dataset: 100%|██████████| 25/25 [00:00<00:00, 576.10 examples/s]
+Building labels for eval dataset:   0%|          | 0/25 [00:00<?, ? examples/s]Building labels for eval dataset: 100%|██████████| 25/25 [00:00<00:00, 2794.64 examples/s]
+Truncating eval dataset:   0%|          | 0/25 [00:00<?, ? examples/s]Truncating eval dataset: 100%|██████████| 25/25 [00:00<00:00, 4136.07 examples/s]
+Dropping fully masked examples from eval dataset:   0%|          | 0/25 [00:00<?, ? examples/s]Dropping fully masked examples from eval dataset: 100%|██████████| 25/25 [00:00<00:00, 7581.35 examples/s]
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:08<06:44,  8.26s/it]  4%|▍         | 2/50 [00:15<06:13,  7.77s/it]  6%|▌         | 3/50 [00:24<06:18,  8.06s/it]  8%|▊         | 4/50 [00:31<05:59,  7.81s/it] 10%|█         | 5/50 [00:39<06:00,  8.01s/it]                                               10%|█         | 5/50 [00:39<06:00,  8.01s/it] 12%|█▏        | 6/50 [00:49<06:22,  8.69s/it] 14%|█▍        | 7/50 [00:57<06:01,  8.42s/it] 16%|█▌        | 8/50 [01:06<05:53,  8.41s/it] 18%|█▊        | 9/50 [01:15<05:52,  8.59s/it] 20%|██        | 10/50 [01:26<06:23,  9.59s/it]                                                20%|██        | 10/50 [01:26<06:23,  9.59s/it] 22%|██▏       | 11/50 [01:36<06:16,  9.65s/it] 24%|██▍       | 12/50 [01:46<06:07,  9.67s/it] 26%|██▌       | 13/50 [01:55<05:51,  9.51s/it] 28%|██▊       | 14/50 [02:05<05:47,  9.64s/it] 30%|███       | 15/50 [02:16<05:48,  9.95s/it]                                                30%|███       | 15/50 [02:16<05:48,  9.95s/it] 32%|███▏      | 16/50 [02:26<05:43, 10.11s/it] 34%|███▍      | 17/50 [02:35<05:25,  9.86s/it] 36%|███▌      | 18/50 [02:45<05:08,  9.64s/it] 38%|███▊      | 19/50 [02:54<04:58,  9.62s/it] 40%|████      | 20/50 [03:03<04:39,  9.31s/it]                                                40%|████      | 20/50 [03:03<04:39,  9.31s/it] 42%|████▏     | 21/50 [03:12<04:28,  9.27s/it] 44%|████▍     | 22/50 [03:20<04:08,  8.88s/it] 46%|████▌     | 23/50 [03:29<04:03,  9.03s/it] 48%|████▊     | 24/50 [03:40<04:04,  9.42s/it] 50%|█████     | 25/50 [03:51<04:11, 10.04s/it]                                                50%|█████     | 25/50 [03:51<04:11, 10.04s/it] 52%|█████▏    | 26/50 [04:02<04:05, 10.25s/it] 54%|█████▍    | 27/50 [04:13<04:02, 10.53s/it] 56%|█████▌    | 28/50 [04:22<03:44, 10.21s/it] 58%|█████▊    | 29/50 [04:32<03:31, 10.09s/it] 60%|██████    | 30/50 [04:42<03:20, 10.00s/it]                                                60%|██████    | 30/50 [04:42<03:20, 10.00s/it] 62%|██████▏   | 31/50 [04:51<03:04,  9.74s/it] 64%|██████▍   | 32/50 [05:00<02:52,  9.58s/it] 66%|██████▌   | 33/50 [05:10<02:44,  9.70s/it] 68%|██████▊   | 34/50 [05:20<02:35,  9.71s/it] 70%|███████   | 35/50 [05:29<02:22,  9.47s/it]                                                70%|███████   | 35/50 [05:29<02:22,  9.47s/it] 72%|███████▏  | 36/50 [05:38<02:11,  9.43s/it] 74%|███████▍  | 37/50 [05:48<02:02,  9.45s/it] 76%|███████▌  | 38/50 [05:57<01:51,  9.27s/it] 78%|███████▊  | 39/50 [06:07<01:44,  9.53s/it] 80%|████████  | 40/50 [06:16<01:33,  9.30s/it]                                                80%|████████  | 40/50 [06:16<01:33,  9.30s/it] 82%|████████▏ | 41/50 [06:26<01:26,  9.57s/it] 84%|████████▍ | 42/50 [06:35<01:14,  9.34s/it] 86%|████████▌ | 43/50 [06:44<01:05,  9.37s/it] 88%|████████▊ | 44/50 [06:53<00:54,  9.13s/it] 90%|█████████ | 45/50 [07:01<00:44,  9.00s/it]                                                90%|█████████ | 45/50 [07:01<00:44,  9.00s/it] 92%|█████████▏| 46/50 [07:11<00:36,  9.07s/it] 94%|█████████▍| 47/50 [07:21<00:28,  9.52s/it] 96%|█████████▌| 48/50 [07:32<00:19,  9.83s/it] 98%|█████████▊| 49/50 [07:42<00:10, 10.06s/it]100%|██████████| 50/50 [07:52<00:00,  9.91s/it]                                               100%|██████████| 50/50 [07:52<00:00,  9.91s/it]{'loss': '0.8553', 'grad_norm': '3.485', 'learning_rate': '0.00016', 'entropy': '0.6344', 'mean_token_accuracy': '0.7983', 'num_tokens': '4915', 'epoch': '0.1'}
+{'loss': '0.4328', 'grad_norm': '4.869', 'learning_rate': '0.0001822', 'entropy': '0.3888', 'mean_token_accuracy': '0.9049', 'num_tokens': '9836', 'epoch': '0.2'}
+{'loss': '0.3205', 'grad_norm': '3.589', 'learning_rate': '0.00016', 'entropy': '0.2813', 'mean_token_accuracy': '0.9395', 'num_tokens': '1.473e+04', 'epoch': '0.3'}
+{'loss': '0.2465', 'grad_norm': '1.711', 'learning_rate': '0.0001378', 'entropy': '0.2894', 'mean_token_accuracy': '0.9363', 'num_tokens': '1.962e+04', 'epoch': '0.4'}
+{'loss': '0.4587', 'grad_norm': '4.41', 'learning_rate': '0.0001156', 'entropy': '0.298', 'mean_token_accuracy': '0.9312', 'num_tokens': '2.451e+04', 'epoch': '0.5'}
+{'loss': '0.4697', 'grad_norm': '4.895', 'learning_rate': '9.333e-05', 'entropy': '0.2833', 'mean_token_accuracy': '0.9063', 'num_tokens': '2.941e+04', 'epoch': '0.6'}
+{'loss': '0.3617', 'grad_norm': '4.577', 'learning_rate': '7.111e-05', 'entropy': '0.3417', 'mean_token_accuracy': '0.8912', 'num_tokens': '3.43e+04', 'epoch': '0.7'}
+{'loss': '0.4322', 'grad_norm': '4.535', 'learning_rate': '4.889e-05', 'entropy': '0.2726', 'mean_token_accuracy': '0.8917', 'num_tokens': '3.919e+04', 'epoch': '0.8'}
+{'loss': '0.2381', 'grad_norm': '3.16', 'learning_rate': '2.667e-05', 'entropy': '0.25', 'mean_token_accuracy': '0.9545', 'num_tokens': '4.408e+04', 'epoch': '0.9'}
+{'loss': '0.4053', 'grad_norm': '1.956', 'learning_rate': '4.444e-06', 'entropy': '0.2391', 'mean_token_accuracy': '0.9224', 'num_tokens': '4.895e+04', 'epoch': '1'}
+
+  0%|          | 0/13 [00:00<?, ?it/s][A
+ 15%|█▌        | 2/13 [00:03<00:17,  1.63s/it][A
+ 23%|██▎       | 3/13 [00:06<00:22,  2.25s/it][A
+ 31%|███       | 4/13 [00:09<00:23,  2.63s/it][A
+ 38%|███▊      | 5/13 [00:12<00:22,  2.78s/it][A
+ 46%|████▌     | 6/13 [00:16<00:22,  3.18s/it][A
+ 54%|█████▍    | 7/13 [00:21<00:21,  3.57s/it][A
+ 62%|██████▏   | 8/13 [00:24<00:17,  3.49s/it][A
+ 69%|██████▉   | 9/13 [00:28<00:14,  3.66s/it][A
+ 77%|███████▋  | 10/13 [00:32<00:11,  3.67s/it][A
+ 85%|████████▍ | 11/13 [00:35<00:07,  3.54s/it][A
+ 92%|█████████▏| 12/13 [00:38<00:03,  3.52s/it][A
+100%|██████████| 13/13 [00:40<00:00,  3.01s/it][A                                               
+                                               [A100%|██████████| 50/50 [08:36<00:00,  9.91s/it]
+100%|██████████| 13/13 [00:40<00:00,  3.01s/it][A2026-11-24 22:12:42,272 INFO llm_structured_output.training.callbacks: Step 50 eval metrics: {'eval_loss': 0.386967271566391, 'eval_runtime': 43.9861, 'eval_samples_per_second': 0.568, 'eval_steps_per_second': 0.296, 'eval_entropy': 0.3631944965857726, 'eval_mean_token_accuracy': 0.9371102543977591, 'eval_num_tokens': 48954.0, 'epoch': 1.0}
+
+                                               [A2026-11-24 22:12:42,330 INFO httpx2: HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-11-24 22:12:42,335 INFO httpx2: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-0.5B-Instruct/7ae557604adf67be50417f59c2c2f167def9a775/config.json?%2FQwen%2FQwen2.5-0.5B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%220dbb161213629a23f0fc00ef286e6b1e366d180f%22 "HTTP/1.1 200 OK"
+2026-11-24 22:12:42,353 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/revision/main "HTTP/1.1 200 OK"
+                                               100%|██████████| 50/50 [08:36<00:00,  9.91s/it]100%|██████████| 50/50 [08:36<00:00, 10.33s/it]
+2026-11-24 22:12:42,490 INFO llm_structured_output.training.train: Training finished in 516.8 s
+2026-11-24 22:12:42,529 INFO httpx2: HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-11-24 22:12:42,535 INFO httpx2: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-0.5B-Instruct/7ae557604adf67be50417f59c2c2f167def9a775/config.json?%2FQwen%2FQwen2.5-0.5B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%220dbb161213629a23f0fc00ef286e6b1e366d180f%22 "HTTP/1.1 200 OK"
+2026-11-24 22:12:42,551 INFO httpx2: HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/revision/main "HTTP/1.1 200 OK"
+2026-11-24 22:12:42,672 INFO llm_structured_output.training.callbacks: Saved training metrics history to checkpoints/smoke_test/training_metrics.json
+2026-11-24 22:12:43,086 INFO llm_structured_output.config: Saved run configuration to outputs/smoke_run_config.json
+2026-11-24 22:12:43,086 INFO llm_structured_output.training.train: Final adapter saved to None
+{'eval_loss': '0.387', 'eval_runtime': '43.99', 'eval_samples_per_second': '0.568', 'eval_steps_per_second': '0.296', 'eval_entropy': '0.3632', 'eval_mean_token_accuracy': '0.9371', 'eval_num_tokens': '4.895e+04', 'epoch': '1'}
+{'train_runtime': '516.5', 'train_samples_per_second': '0.194', 'train_steps_per_second': '0.097', 'train_loss': '0.4221', 'epoch': '1'}
+train_exit=0
