@@ -1,0 +1,70 @@
+# Full experiment configuration (targets a 24 GB GPU).
+project:
+  name: banking77-structured-llm
+  seed: 42
+
+data:
+  dataset: banking77
+  hf_dataset_id: PolyAI/banking77
+  train_split: train
+  test_split: test
+  validation_ratio: 0.1
+  max_length: 1024
+  # Optional sample caps (null = use the full split). Kept null here.
+  max_train_samples: null
+  max_validation_samples: null
+  max_test_samples: null
+
+model:
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  torch_dtype: bfloat16 # float32 recommended on CPU
+  trust_remote_code: false
+
+training:
+  output_dir: checkpoints
+  epochs: 2
+  learning_rate: 2.0e-4
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 8
+  warmup_ratio: 0.05
+  logging_steps: 10
+  save_steps: 250
+  eval_steps: 250
+  save_total_limit: 3
+  gradient_checkpointing: true
+  resume_from_checkpoint: null # set to a checkpoint path to resume
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  bias: none
+  task_type: CAUSAL_LM
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+
+evaluation:
+  batch_size: 8
+  max_new_tokens: 64
+  temperature: 0.0
+
+output:
+  checkpoint_dir: checkpoints
+  metrics_file: outputs/metrics.json
+  predictions_file: outputs/predictions.jsonl
+  errors_file: outputs/errors.jsonl
+  confusion_matrix_file: outputs/confusion_matrix.json
+  run_config_file: outputs/run_config.json
+  tfidf_metrics_file: outputs/tfidf_metrics.json
+  tfidf_predictions_file: outputs/tfidf_predictions.jsonl
+
+# Browser copy of the TF-IDF classifier (scripts/export_web_model.py). index.html
+# loads model_file from this path when no /api/ask server is running.
+web_model:
+  model_file: outputs/web_model.json
+  metrics_file: outputs/web_model_metrics.json
+  min_confidence: 0.15 # below this the chat answers out_of_domain

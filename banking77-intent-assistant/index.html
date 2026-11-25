@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banking77 Intent Assistant</title>
+<style>
+  /* ---- tokens (Dark Slate Workspace) ---- */
+  :root{
+    --bg:#0f1420; --surface:#171e2e; --surface2:#202941; --border:#2b3550;
+    --heading:#f3f6fc; --text:#d5dcea; --muted:#8d99b0;
+    --accent:#14b8a6; --accent-strong:#5eead4; --accent-soft:rgba(20,184,166,.12);
+    --accent-contrast:#04231f;
+    --good:#34d399; --warn:#fbbf24; --bad:#f87171;
+    --radius:8px; --radius-lg:12px;
+    --shadow-1:0 1px 2px rgba(0,0,0,.35),0 1px 6px rgba(0,0,0,.25);
+    --shadow-2:0 4px 14px rgba(0,0,0,.45);
+    --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --mono:ui-monospace,'Cascadia Code',Consolas,monospace;
+    --dur-fast:160ms; --dur-slow:320ms; --ease-out:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:76px}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;font-size:16px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-strong);text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  code,kbd{font-family:var(--mono);font-size:.86em}
+  code.inline{background:var(--surface2);border:1px solid var(--border);padding:2px 7px;border-radius:6px;color:var(--accent-strong)}
+
+  header{position:sticky;top:0;z-index:10;background:rgba(15,20,32,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap;padding:8px 0}
+  .brand{font-weight:700;letter-spacing:.2px;white-space:nowrap;display:inline-flex;align-items:baseline;gap:2px}
+  .brand span{color:var(--accent)}
+  .nav nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+  .nav nav a{color:var(--muted);font-size:.92rem;padding:8px 2px}
+  .nav nav a:hover{color:var(--text);text-decoration:none}
+
+  .hero{padding:48px 0 28px;text-align:center}
+  .eyebrow{display:inline-block;color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:var(--font);font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.15;font-weight:800;letter-spacing:-.01em;color:var(--heading);max-width:720px;margin:0 auto}
+  .hero p.sub{color:var(--muted);max-width:620px;margin:16px auto 24px;font-size:1.02rem}
+
+  /* ---- workspace: chat first, metrics rail beside it ---- */
+  .workspace{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;padding-bottom:24px}
+  .workspace>*{min-width:0}
+  .chat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-1);display:flex;flex-direction:column;height:520px}
+  .chat .log{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
+  .msg{max-width:85%;padding:11px 15px;border-radius:var(--radius-lg);font-size:.93rem;white-space:pre-wrap;word-break:break-word;animation:slide-in var(--dur-slow) var(--ease-out) both}
+  @keyframes slide-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.user{align-self:flex-end;background:var(--accent);color:var(--accent-contrast);border-bottom-right-radius:4px;font-weight:500}
+  .msg.bot{align-self:flex-start;background:var(--bg);border:1px solid var(--border);border-bottom-left-radius:4px}
+  .msg.bot code{color:var(--accent-strong);display:block;white-space:pre-wrap;font-size:.85rem}
+  .msg.bot.err{color:var(--bad)}
+  .msg .lat{display:block;font-size:.72rem;color:var(--muted);margin-top:8px;text-transform:capitalize}
+  .conf{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .conf .bar{flex:1;height:6px;background:var(--surface2);border-radius:999px;overflow:hidden}
+  .conf .fill{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width 400ms var(--ease-out)}
+  .conf .pct{font-variant-numeric:tabular-nums;font-size:.75rem;color:var(--muted);min-width:38px;text-align:right}
+  .top3{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .top3 .alt{font-size:.72rem;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+  .top3 .alt b{color:var(--text);font-variant-numeric:tabular-nums;font-weight:600}
+  .chat .bar{display:flex;gap:10px;padding:14px;border-top:1px solid var(--border)}
+  .chat input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);padding:11px 14px;font-size:.95rem;outline:none;min-height:44px;transition:border-color var(--dur-fast) var(--ease-out)}
+  .chat input:focus{border-color:var(--accent)}
+  .chat button{background:var(--accent);border:none;color:var(--accent-contrast);font-weight:700;font-size:.92rem;border-radius:var(--radius);padding:0 22px;min-height:44px;cursor:pointer;transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out)}
+  .chat button:hover{background:var(--accent-strong)}
+  .chat button:active{transform:scale(.97)}
+  .chat button:disabled{opacity:.55;cursor:wait;transform:none}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;justify-content:center}
+  .chips button{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:.8rem;border-radius:999px;padding:8px 14px;min-height:36px;cursor:pointer;font-family:var(--font);transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out)}
+  .chips button:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+  .chat .hint{color:var(--muted);font-size:.76rem;padding:0 16px 12px;text-align:center}
+
+  .rail{display:flex;flex-direction:column;gap:14px}
+  .rail .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-1);padding:20px}
+  .rail h3{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .rail .stat{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border)}
+  .rail .stat:last-child{border-bottom:none}
+  .rail .stat .k{color:var(--muted);font-size:.84rem}
+  .rail .stat .v{font-variant-numeric:tabular-nums;font-weight:700;color:var(--heading)}
+  .rail .stat .v.good{color:var(--good)}
+  .rail .stat .v.warn{color:var(--warn)}
+  .rail .badge{display:inline-block;font-size:.7rem;padding:3px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);color:var(--muted)}
+  .rail .note{color:var(--muted);font-size:.78rem;margin-top:12px}
+
+  section{padding:48px 0;border-top:1px solid var(--border)}
+  h2{font-size:1.4rem;margin-bottom:8px;color:var(--heading);letter-spacing:-.01em}
+  .lead{color:var(--muted);margin-bottom:30px;max-width:660px}
+
+  /* pipeline */
+  .pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;position:relative;box-shadow:var(--shadow-1)}
+  .stage b{display:block;margin-bottom:6px;color:var(--heading)}
+  .stage small{color:var(--muted)}
+  .stage .num{position:absolute;top:-10px;left:16px;background:var(--accent);color:var(--accent-contrast);font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:999px}
+
+  /* schema demo */
+  .demo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-1)}
+  .panel h3{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px}
+  .panel pre{white-space:pre-wrap;word-break:break-word;font-size:.88rem}
+  .in{color:var(--accent)} .out{color:var(--good)}
+
+  /* quickstart */
+  .term{background:#0a0e18;color:#e7edf7;border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;font-family:var(--mono);font-size:.85rem;overflow-x:auto;box-shadow:var(--shadow-1)}
+  .term .c{color:#94a6c4;user-select:none}
+
+  /* grid cards */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-1)}
+  .card b{display:block;margin-bottom:6px;color:var(--heading)}
+  .card small{color:var(--muted)}
+
+  footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);font-size:.85rem}
+
+  @media(max-width:820px){
+    .pipe,.metrics,.grid{grid-template-columns:1fr 1fr}
+    .demo{grid-template-columns:1fr}
+    .workspace{grid-template-columns:1fr}
+    .rail{flex-direction:row;flex-wrap:wrap}
+    .rail .panel{flex:1;min-width:240px}
+  }
+  @media(max-width:520px){
+    .pipe,.metrics,.grid{grid-template-columns:1fr}
+    .nav nav{display:none}
+    .hero{padding:36px 0 20px}
+    section{padding:36px 0}
+    .chat{height:460px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .msg{animation:none}
+    .conf .fill{transition:none}
+    *{transition-duration:1ms!important;animation-duration:1ms!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><b>banking77</b><span>.intent</span></div>
+    <nav>
+      <a href="#chat">Try it</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#schema">Schema</a>
+      <a href="#quickstart">Quickstart</a>
+      <a href="#components">Components</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Banking77 Intent Assistant</div>
+    <h1>Ask a banking question, get the intent in a millisecond</h1>
+    <p class="sub">Type what a customer would say. The classifier returns a strict JSON intent with a readable
+    label, a confidence score and the top three alternatives, all running in your browser.</p>
+  </div>
+</div>
+
+<section id="chat" style="border-top:none;padding-top:8px">
+  <div class="wrap">
+    <div class="workspace">
+      <div class="chat">
+        <div class="log" id="chat-log"></div>
+        <div class="bar">
+          <input id="chat-in" type="text" placeholder="e.g. I ordered a card a week ago and it hasn't arrived" autocomplete="off" aria-label="Your banking question">
+          <button id="chat-send">Ask a question</button>
+        </div>
+        <div class="chips" id="chips">
+          <button data-q="I have been charged twice this month">Charged twice</button>
+          <button data-q="How do I get my verification code?">Verification code</button>
+          <button data-q="Where is my refund?">Refund</button>
+          <button data-q="I deposited cash an hour ago and my balance has not updated yet">Balance not updated</button>
+        </div>
+        <div class="hint" id="chat-status">Uses the <code class="inline">/api/ask</code> server when it is running, and otherwise runs the same classifier in your browser.</div>
+      </div>
+      <aside class="rail">
+        <div class="panel">
+          <h3>Results <span class="badge" id="metrics-source">loading…</span></h3>
+          <div class="stat"><span class="k">Accuracy</span><span class="v good" id="m-acc">–</span></div>
+          <div class="stat"><span class="k">Macro F1</span><span class="v" id="m-f1">–</span></div>
+          <div class="stat"><span class="k">Exact match (strict)</span><span class="v good" id="em">–</span></div>
+          <div class="stat"><span class="k">Valid JSON rate</span><span class="v warn" id="vjr">–</span></div>
+          <div class="stat"><span class="k">Test examples</span><span class="v" id="n-ex">–</span></div>
+          <div class="stat"><span class="k">Intent classes</span><span class="v">77</span></div>
+          <div class="stat"><span class="k">Errors analyzed</span><span class="v" id="n-err">–</span></div>
+        </div>
+        <div class="panel">
+          <h3>Pipeline</h3>
+          <div class="stat"><span class="k">Dataset</span><span class="v">Banking77</span></div>
+          <div class="stat"><span class="k">Model</span><span class="v">Qwen2.5 + LoRA</span></div>
+          <div class="stat"><span class="k">Baseline</span><span class="v">TF-IDF + LogReg</span></div>
+          <div class="note">Loaded live from the run artifacts in <code class="inline">outputs/</code> — no hand-typed numbers.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <h2>Pipeline</h2>
+    <p class="lead">Four reproducible stages, each driven by a single config file. The official test split is never touched until evaluation.</p>
+    <div class="pipe">
+      <div class="stage"><span class="num">1</span><b>Prepare</b><small>Banking77 loaded, leak-free 90/10 train/val split, chat-template rendering.</small></div>
+      <div class="stage"><span class="num">2</span><b>Baseline</b><small>TF-IDF + logistic regression calibrates expectations on CPU in minutes.</small></div>
+      <div class="stage"><span class="num">3</span><b>Fine-tune</b><small>LoRA adapters (r=16) on all attention projections, SFTTrainer, bf16.</small></div>
+      <div class="stage"><span class="num">4</span><b>Evaluate & serve</b><small>Strict JSON validation, error analysis, confusion matrix, vLLM endpoint.</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="schema">
+  <div class="wrap">
+    <h2>Strict output schema</h2>
+    <p class="lead">Every model response is parsed, schema-validated with Pydantic (<code class="inline">extra="forbid"</code>), and checked against the 77-label vocabulary. Failures become machine-readable error records.</p>
+    <div class="demo">
+      <div class="panel"><h3>Input</h3><pre><span class="in">&gt;</span> "I ordered a card over a week ago and it still hasn't arrived."</pre></div>
+      <div class="panel"><h3>Model output</h3><pre><span class="out">{</span>
+<span class="out">  "intent": "card_arrival"</span>
+<span class="out">}</span></pre></div>
+    </div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <h2>Quickstart</h2>
+    <p class="lead">Three commands to a baseline; a GPU for the full fine-tune; a CPU smoke config to verify the whole pipeline in minutes.</p>
+    <div class="term">
+<span class="c"># data + baseline (CPU)</span><br>
+python scripts/prepare_data.py --config configs/banking77.yaml<br>
+python scripts/run_baseline.py --config configs/banking77.yaml<br><br>
+<span class="c"># fine-tune + evaluate (GPU)</span><br>
+python scripts/train.py --config configs/banking77.yaml<br>
+python scripts/evaluate.py --config configs/banking77.yaml<br><br>
+<span class="c"># merge, serve, query</span><br>
+python scripts/merge_adapter.py --adapter checkpoints/&lt;run&gt; --out checkpoints/merged \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--base-model Qwen/Qwen2.5-1.5B-Instruct<br>
+./scripts/serve.sh checkpoints/merged 8000<br>
+python scripts/client.py "I have been charged twice this month"
+    </div>
+  </div>
+</section>
+
+<section id="components">
+  <div class="wrap">
+    <h2>What's inside</h2>
+    <p class="lead">Small, focused modules under <code class="inline">src/llm_structured_output/</code>, each independently tested.</p>
+    <div class="grid">
+      <div class="card"><b>data/</b><small>Leak-free splits, chat-template prompts, Pydantic schema with <code>extra="forbid"</code>.</small></div>
+      <div class="card"><b>training/</b><small>PEFT LoRA on q/k/v/o projections, SFTTrainer, eval-metric history, resumable checkpoints.</small></div>
+      <div class="card"><b>evaluation/</b><small>JSON extraction, schema validation, error taxonomy, confusion matrix JSON + PNG.</small></div>
+      <div class="card"><b>baseline/</b><small>TF-IDF (word 1–2 grams) + balanced logistic regression — the number to beat.</small></div>
+      <div class="card"><b>inference/</b><small>Client with schema enforcement, input truncation, bounded exponential-backoff retries.</small></div>
+      <div class="card"><b>configs/</b><small>One YAML per experiment: full GPU run and a tiny CPU smoke run, fully reproducible.</small></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Banking77 structured-output fine-tuning · MIT license · artifacts in <code class="inline">outputs/</code>, checkpoints in <code class="inline">checkpoints/</code></div>
+</footer>
+
+<script>
+(async () => {
+  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  const pct = x => (x * 100).toFixed(1) + '%';
+  const num = x => x == null ? '–' : Number(x).toLocaleString();
+  try {
+    const r = await fetch('/outputs/smoke_metrics.json');
+    if (!r.ok) throw new Error('no artifacts');
+    const m = await r.json();
+    set('m-acc', pct(m.accuracy)); set('m-f1', pct(m.macro_f1));
+    set('em', pct(m.exact_match)); set('vjr', pct(m.valid_json_rate));
+    set('n-ex', num(m.num_examples));
+    set('n-err', num(Object.values(m.error_breakdown || {}).reduce((a, b) => a + b, 0)));
+    set('metrics-source', 'smoke run');
+  } catch {
+    try {
+      const r = await fetch('/outputs/tfidf_metrics.json');
+      const m = await r.json();
+      set('m-acc', pct(m.accuracy)); set('m-f1', pct(m.macro_f1));
+      set('n-ex', num(m.num_test_examples));
+      set('em', '—'); set('vjr', '100%');
+      set('metrics-source', 'TF-IDF baseline');
+    } catch { set('metrics-source', 'artifacts not found — run the pipeline'); }
+  }
+
+  // ---- live chat panel ----
+  const log = document.getElementById('chat-log');
+  const input = document.getElementById('chat-in');
+  const sendBtn = document.getElementById('chat-send');
+  const status = document.getElementById('chat-status');
+  // scripts/webapp.py turns this on when it serves the page; a static host has no /api/ask.
+  const HAS_API = false;
+
+  // browser-classifier:start
+  let webModel = null;
+
+  async function loadWebModel() {
+    if (webModel) return webModel;
+    const r = await fetch('/outputs/web_model.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const m = await r.json();
+    m.coef = Int8Array.from(atob(m.coef_int8_b64), ch => ch.charCodeAt(0));
+    webModel = m;
+    return m;
+  }
+
+  function classifyLocal(m, message) {
+    const start = performance.now();
+    const tokens = message.toLowerCase().match(/[\p{L}\p{N}_]{2,}/gu) || [];
+    const terms = tokens.concat(tokens.slice(1).map((t, i) => tokens[i] + ' ' + t));
+    const counts = new Map();
+    for (const term of terms) {
+      const idx = m.vocabulary[term];
+      if (idx !== undefined) counts.set(idx, (counts.get(idx) || 0) + 1);
+    }
+    let norm = 0;
+    const features = [];
+    for (const [idx, tf] of counts) {
+      const value = (1 + Math.log(tf)) * m.idf[idx];
+      features.push([idx, value]);
+      norm += value * value;
+    }
+    norm = Math.sqrt(norm) || 1;
+    const nLabels = m.labels.length;
+    const nFeatures = m.idf.length;
+    const logits = m.intercept.slice();
+    for (const [idx, value] of features) {
+      for (let c = 0; c < nLabels; c++) {
+        logits[c] += m.coef[c * nFeatures + idx] * m.coef_scale[c] * (value / norm);
+      }
+    }
+    const top = Math.max(...logits);
+    const exps = logits.map(v => Math.exp(v - top));
+    const total = exps.reduce((a, b) => a + b, 0);
+    const ranked = exps.map((v, c) => [m.labels[c], v / total]).sort((a, b) => b[1] - a[1]);
+    const confidence = ranked[0][1];
+    const inDomain = confidence >= m.min_confidence;
+    return {
+      reply: { intent: inDomain ? ranked[0][0] : 'out_of_domain' },
+      confidence: Math.round(confidence * 1e4) / 1e4,
+      top3: ranked.slice(0, 3).map(([intent, p]) => ({ intent, confidence: Math.round(p * 1e4) / 1e4 })),
+      backend: 'tfidf_browser',
+      error: inDomain ? null : 'out_of_domain',
+      latency_ms: Math.round(performance.now() - start),
+    };
+  }
+  // browser-classifier:end
+
+  function bubble(cls, html) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + cls;
+    div.innerHTML = html;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  async function askOnce(base, message) {
+    const r = await fetch(base + '/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }
+
+  async function send() {
+    const message = input.value.trim();
+    if (!message || sendBtn.disabled) return;
+    input.value = '';
+    sendBtn.disabled = true;
+    bubble('user', message);
+    const thinking = bubble('bot', 'Thinking…');
+    let data = null;
+    if (HAS_API) {
+      try { data = await askOnce('', message); } catch (e) { /* fall back to the browser model */ }
+    }
+    if (!data) {
+      try { data = classifyLocal(await loadWebModel(), message); } catch (e) { /* model file missing */ }
+    }
+    if (data && data.reply) {
+      thinking.className = 'msg bot';
+      const pretty = JSON.stringify(data.reply, null, 2).replace(/</g, '&lt;');
+      const label = String(data.reply.intent || '').replace(/_/g, ' ');
+      let html = '<code>' + pretty + '</code>';
+      if (typeof data.confidence === 'number') {
+        const pctVal = Math.round(data.confidence * 100);
+        html += '<span class="conf"><span class="bar"><span class="fill" data-w="' + pctVal + '"></span></span>'
+          + '<span class="pct">' + pctVal + '%</span></span>';
+      }
+      if (Array.isArray(data.top3) && data.top3.length > 1) {
+        html += '<span class="top3">' + data.top3.map(t =>
+          '<span class="alt">' + String(t.intent).replace(/_/g, ' ') + ' <b>' + Math.round(t.confidence * 100) + '%</b></span>'
+        ).join('') + '</span>';
+      }
+      html += '<span class="lat">' + label + ' · ' + data.latency_ms + ' ms</span>';
+      thinking.innerHTML = html;
+      const fill = thinking.querySelector('.fill');
+      if (fill) requestAnimationFrame(() => { fill.style.width = fill.dataset.w + '%'; });
+    } else if (data) {
+      thinking.className = 'msg bot err';
+      thinking.textContent = data.error === 'model_not_loaded'
+        ? 'The model server is up but the checkpoint is still loading — try again in a moment.'
+        : 'The model did not return valid JSON (' + data.error + '). Raw: ' + (data.raw || '');
+    } else {
+      thinking.className = 'msg bot err';
+      thinking.innerHTML = 'No model available: /api/ask is not served here and outputs/web_model.json is missing. Create it with:<br><code>.venv/bin/python scripts/export_web_model.py</code>';
+    }
+    log.scrollTop = log.scrollHeight;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+  document.getElementById('chips').addEventListener('click', e => {
+    const q = e.target.getAttribute && e.target.getAttribute('data-q');
+    if (!q) return;
+    input.value = q;
+    send();
+  });
+  bubble('bot', 'Hi! Ask me anything about your bank account, cards or payments — I will answer with a strict JSON intent label.');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+# CPU smoke test: verifies the whole pipeline end to end on tiny samples.
+# Not meant to produce meaningful quality. Should finish in minutes on CPU.
+project:
+  name: banking77-smoke-test
+  seed: 42
+
+data:
+  dataset: banking77
+  hf_dataset_id: PolyAI/banking77
+  train_split: train
+  test_split: test
+  validation_ratio: 0.1
+  max_length: 768
+  max_train_samples: 100
+  max_validation_samples: 25
+  max_test_samples: 50
+
+model:
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  torch_dtype: float32
+  trust_remote_code: false
+
+training:
+  output_dir: checkpoints/smoke_test
+  epochs: 1
+  learning_rate: 2.0e-4
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 1
+  warmup_ratio: 0.05
+  logging_steps: 5
+  save_steps: 50
+  eval_steps: 50
+  save_total_limit: 1
+  gradient_checkpointing: false
+  resume_from_checkpoint: null
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  bias: none
+  task_type: CAUSAL_LM
+  target_modules:
+    - q_proj
+    - v_proj
+
+evaluation:
+  batch_size: 4
+  max_new_tokens: 32
+  temperature: 0.0
+
+output:
+  checkpoint_dir: checkpoints/smoke_test
+  metrics_file: outputs/smoke_metrics.json
+  predictions_file: outputs/smoke_predictions.jsonl
+  errors_file: outputs/smoke_errors.jsonl
+  confusion_matrix_file: outputs/smoke_confusion_matrix.json
+  run_config_file: outputs/smoke_run_config.json
+  tfidf_metrics_file: outputs/tfidf_metrics.json
+  tfidf_predictions_file: outputs/tfidf_predictions.jsonl
